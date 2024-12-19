@@ -50,7 +50,7 @@ async def purge_requests(client, message):
         )
 
 
-@Client.on_message(filters.command("set_sub") & filters.user(ADMINS) & filters.private)
+@Client.on_message(filters.command("set_req") & filters.user(ADMINS) & filters.private)
 async def add_fsub_chats(bot: Client, update: Message):
 
     chat = update.command[1] if len(update.command) > 1 else None
@@ -93,3 +93,23 @@ async def get_fsub_chat(bot: Client, update: Message):
         return
     else:
         await update.reply_text(f"Fsub chat: <code>{chat['chat_id']}</code>", quote=True, parse_mode=enums.ParseMode.HTML)
+@Client.on_message(filters.command("set_sub") & filters.user(ADMINS) & filters.private)
+async def add_fsub_chats(bot: Client, update: Message):
+
+    chat = update.command[1] if len(update.command) > 1 else None
+    if not chat:
+        await update.reply_text("Invalid chat id.", quote=True)
+        return
+    else:
+        chat = int(chat)
+
+    await db().add_fsub_chat(chat)
+
+    text = f"Added chat <code>{chat}</code> to the database."
+    await update.reply_text(text=text, quote=True, parse_mode=enums.ParseMode.HTML)
+    with open("./dynamic.env", "wt+") as f:
+        f.write(f"AUTH_CHANNEL={chat}\n")
+
+    logger.info("Restarting to update AUTH_CHANNEL from database...")
+    await update.reply_text("Restarting...", quote=True)
+    os.execl(sys.executable, sys.executable, "bot.py")
