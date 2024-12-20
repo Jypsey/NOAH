@@ -32,7 +32,7 @@ auth_grp = environ.get('AUTH_GROUP')
 AUTH_GROUPS = [int(ch) for ch in auth_grp.split()] if auth_grp else None
 
 # MongoDB information
-DATABASE_URI = environ.get('DATABASE_URI', "")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://MAYFLOWER:MAYFLOWER@cluster0.nv45v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
@@ -46,7 +46,7 @@ JOIN_REQS_DB = environ.get("JOIN_REQS_DB", DATABASE_URI)
 DELETE_TIMEOUT = int(environ.get('DELETE_TIMEOUT', 2*60*60)) # 2 hours in seconds
 
 # Others
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', -1001869718840))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', -1002355632545))
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', 'CINEMAHUB_NEW_MOVIES')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "False")), False)
 IMDB = is_enabled((environ.get('IMDB', "False")), False)
